@@ -5,7 +5,7 @@ This is an alternative way to the Test-Connection cmdlet.  I have a static list 
 
 # $IPList = read-host "Please enter the file path of the host list"
 
-$IPList = 1..255 | foreach {"10.10.10.$_"}
+$IPList = 1..255 | ForEach-Object {"10.10.10.$_"}
 
 $ReplyResults = @()
 foreach ($node in ($IPList)){
@@ -16,7 +16,6 @@ foreach ($node in ($IPList)){
     catch {
         write-host "$node is not accessable"
     }
-
-    
 } 
-$ReplyResults
+$ReplyResults #| out-file .\OnlineIPs.txt
+

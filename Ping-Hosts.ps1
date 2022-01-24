@@ -3,4 +3,4 @@ Script assumes the hostfile contains a list of IP addressess.  It reads in the f
 #>
 
 #$IPs = read-host "Please enter the file path of the host list"
-1..255 | foreach {test-connection -count 1 10.10.10.$_}
+1..255 | ForEach-Object {test-connection -count 1 10.10.10.$_}
