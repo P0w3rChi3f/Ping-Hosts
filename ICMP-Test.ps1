@@ -4,7 +4,8 @@ This is an alternative way to the Test-Connection cmdlet.  I have a static list 
 #>
 
 # $IPList = read-host "Please enter the file path of the host list"
-$IPList = .\Hostsfile.txt
+
+$IPList = 1..255 | foreach {"10.10.10.$_"}
 
 $ReplyResults = @()
 foreach ($node in (get-content $IPList)){
