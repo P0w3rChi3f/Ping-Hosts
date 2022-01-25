@@ -8,7 +8,10 @@ This is an alternative way to the Test-Connection cmdlet.  I have a static list 
 $IPList = 1..255 | ForEach-Object {"10.10.10.$_"}
 
 $ReplyResults = @()
+$i = 0
 foreach ($node in ($IPList)){
+    $i += 1
+    Write-Progress “Scanning Network” -PercentComplete (($i/$IPList.Count)*100)
     $icmpresults = ping $node -n 1 
     try {
         $ReplyResults += ((($icmpresults | Select-String "reply" | Where-Object {$_ -notlike "*unreachable*"}).ToString()).Split(" ")[2]).TrimEnd(":")
