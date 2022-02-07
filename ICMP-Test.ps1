@@ -8,7 +8,7 @@ $IPList = .\Hostsfile.txt
 
 $ReplyResults = @()
 foreach ($node in (get-content $IPList)){
-    $icmpresults = ping $node -n 1 
+    {$icmpresults = ping $node -n 1} 
     try {
         $ReplyResults += ((($icmpresults | Select-String "reply" | Where-Object {$_ -notlike "*unreachable*"}).ToString()).Split(" ")[2]).TrimEnd(":")
     }
