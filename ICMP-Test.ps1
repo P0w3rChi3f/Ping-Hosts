@@ -4,18 +4,26 @@ This is an alternative way to the Test-Connection cmdlet.  I have a static list 
 #>
 
 # $IPList = read-host "Please enter the file path of the host list"
-$IPList = .\Hostsfile.txt
+
+$IPList = 1..255 | ForEach-Object {"10.10.10.$_"}
 
 $ReplyResults = @()
+<<<<<<< HEAD
 foreach ($node in (get-content $IPList)){
-    {$icmpresults = ping $node -n 1} 
+    $icmpresults = ping $node -n 1} 
+=======
+$i = 0
+foreach ($node in ($IPList)){
+    $i += 1
+    Write-Progress “Scanning Network” -PercentComplete (($i/$IPList.Count)*100)
+    $icmpresults = ping $node -n 1 
+>>>>>>> 93c1c78365d5c3f459af88fcc9e9e75cc47f3c71
     try {
         $ReplyResults += ((($icmpresults | Select-String "reply" | Where-Object {$_ -notlike "*unreachable*"}).ToString()).Split(" ")[2]).TrimEnd(":")
     }
     catch {
         write-host "$node is not accessable"
     }
-
-    
 } 
-$ReplyResults
+$ReplyResults #| out-file .\OnlineIPs.txt
+
